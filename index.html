@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Archive - 70 Samples</title>
+    <!-- Google Fonts for a modern look -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* --- 1. ECO & MODERN VARIABLES --- */
+        :root {
+            --bg-color: #ffffff;
+            --text-main: #1a1a1a;
+            --text-light: #555555;
+            --eco-green: #2E7D32;       /* Forest Green */
+            --eco-light: #E8F5E9;       /* Very light green background */
+            --border-color: #e0e0e0;
+            --card-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+        }
+
+        /* --- 2. HEADER & INTRO --- */
+        header {
+            text-align: center;
+            padding: 60px 20px 40px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 3rem;
+            color: var(--eco-green);
+            margin-bottom: 20px;
+            letter-spacing: -0.5px;
+        }
+
+        .intro {
+            font-size: 1.1rem;
+            color: var(--text-light);
+            margin-bottom: 60px;
+        }
+
+        /* --- 3. THE GRID (70 SAMPLES) --- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px 100px;
+        }
+
+        .grid {
+            display: grid;
+            /* This creates a responsive grid automatically */
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        /* --- 4. SAMPLE CARD STYLE --- */
+        .card {
+            background: white;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: var(--card-shadow);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 200px; /* Fixed height for uniformity */
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: var(--eco-green);
+            box-shadow: 0 10px 20px rgba(46, 125, 50, 0.15);
+        }
+
+        .card h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .expand-btn {
+            background-color: white;
+            color: var(--eco-green);
+            border: 2px solid var(--eco-green);
+            padding: 10px 24px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: background 0.3s, color 0.3s;
+            align-self: center;
+        }
+
+        .expand-btn:hover {
+            background-color: var(--eco-green);
+            color: white;
+        }
+
+        /* --- 5. HIDDEN CONTENT (The data for the modal) --- */
+        .hidden-content {
+            display: none; /* Keeps details hidden until clicked */
+        }
+
+        /* --- 6. MODAL (The Popup Window) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6); /* Dark backdrop */
+            backdrop-filter: blur(5px);     /* Modern blur effect */
+            display: none;                  /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-window {
+            background: white;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh; /* Max height 90% of screen */
+            border-radius: 16px;
+            overflow-y: auto; /* Scroll inside if content is long */
+            padding: 40px;
+            position: relative;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+            transform: scale(0.9);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-window {
+            transform: scale(1);
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 2rem;
+            color: #888;
+            cursor: pointer;
+            line-height: 1;
+            transition: color 0.2s;
+        }
+
+        .close-btn:hover {
+            color: var(--text-main);
+        }
+
+        /* Modal Content Styling */
+        .modal-body h2 {
+            color: var(--eco-green);
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--eco-light);
+            padding-bottom: 10px;
+        }
+
+        .modal-body img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+
+        .modal-body p {
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+
+        /* Mobile Adjustment */
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .grid { grid-template-columns: 1fr; }
+            .card { height: auto; padding: 40px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- HEADER & INTRO -->
+    <header>
+        <h1>Project Title Here</h1>
+        <div class="intro">
+            <p>A brief introduction to the collection. This section explains the scientific or artistic goal of these 70 samples. Click on any card below to reveal the structure, imagery, and detailed analysis of the sample.</p>
+        </div>
+    </header>
+
+    <!-- MAIN GRID CONTAINER -->
+    <div class="container">
+        <div class="grid" id="samples-grid">
+
+            <!-- ========================================== -->
+            <!-- START OF SAMPLES -->
+            <!-- Your colleagues only need to copy/paste from <div class="card"> to </div> -->
+            <!-- ========================================== -->
+
+            <!-- SAMPLE 1 -->
+            <div class="card">
+                <h3>Sample 01: Title</h3>
+                <button class="expand-btn">View Details</button>
+                
+                <!-- HIDDEN CONTENT: This appears in the popup -->
+                <div class="hidden-content">
+                    <h2>Sample 01: Full Scientific Name</h2>
+                    <!-- Colleagues replace src="" with actual image links -->
+                    <img src="https://via.placeholder.com/800x400/e8f5e9/2e7d32?text=Sample+1+Image" alt="Sample 1 Structure">
+                    <p><strong>Structure:</strong> Description of the structure goes here.</p>
+                    <p><strong>Analysis:</strong> This is where the detailed text about the sample resides. It can be as long as needed. The popup window will scroll.</p>
+                    <p>Additional notes or eco-data can go here.</p>
+                </div>
+            </div>
+
+            <!-- SAMPLE 2 -->
+            <div class="card">
+                <h3>Sample 02: Title</h3>
+                <button class="expand-btn">View Details</button>
+                
+                <div class="hidden-content">
+                    <h2>Sample 02: Different Name</h2>
+                    <img src="https://via.placeholder.com/800x400/e8f5e9/2e7d32?text=Sample+2+Image" alt="Sample 2 Structure">
+                    <p><strong>Structure:</strong> Details for sample 2.</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vivamus lacinia odio vitae vestibulum vestibulum.</p>
+                </div>
+            </div>
+
+            <!-- SAMPLE 3 -->
+            <div class="card">
+                <h3>Sample 03: Title</h3>
+                <button class="expand-btn">View Details</button>
+                <div class="hidden-content">
+                    <h2>Sample 03: Name</h2>
+                    <p>Content pending...</p>
+                </div>
+            </div>
+
+            <!-- INSTRUCTIONS FOR COLLEAGUES (Delete this comment block when done) -->
+            <!-- 
+                 TO ADD MORE SAMPLES:
+                 1. Copy the entire <div class="card">...</div> block above.
+                 2. Paste it below.
+                 3. Edit the Text and Images inside the "hidden-content" div.
+                 4. Repeat until you have 70 sections.
+            -->
+
+        </div>
+    </div>
+
+    <!-- MODAL OVERLAY (Do not touch this part) -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-window">
+            <span class="close-btn">&times;</span>
+            <div class="modal-body" id="modal-body">
+                <!-- Content is injected here by JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        // 1. Select DOM elements
+        const modal = document.getElementById('modal-overlay');
+        const modalBody = document.getElementById('modal-body');
+        const closeBtn = document.querySelector('.close-btn');
+        const buttons = document.querySelectorAll('.expand-btn');
+
+        // 2. Add Event Listeners to all "View Details" buttons
+        // Note: If you add HTML dynamically via JS later, you need event delegation.
+        // For static copy-pasting (as requested), this works perfectly.
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.classList.contains('expand-btn')) {
+                const card = e.target.closest('.card');
+                const hiddenContent = card.querySelector('.hidden-content').innerHTML;
+                
+                // Inject content into modal
+                modalBody.innerHTML = hiddenContent;
+                
+                // Show modal
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden'; // Prevent background scrolling
+            }
+        });
+
+        // 3. Close Modal Functions
+        function closeModal() {
+            modal.classList.remove('active');
+            document.body.style.overflow = 'auto'; // Re-enable scrolling
+            setTimeout(() => {
+                modalBody.innerHTML = ''; // Clear content after animation
+            }, 300);
+        }
+
+        closeBtn.addEventListener('click', closeModal);
+
+        // Close if clicking outside the white box
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+
+        // Close on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && modal.classList.contains('active')) {
+                closeModal();
+            }
+        });
+        
+        /* -----------------------------------------------------------
+           HELPER SCRIPT FOR THE DEMO (OPTIONAL)
+           This script automatically generates samples 4 to 70 so you can 
+           see what the full grid looks like immediately.
+           
+           *** DELETE THIS SECTION BELOW WHEN YOU START ADDING REAL DATA ***
+           ----------------------------------------------------------- */
+        const grid = document.getElementById('samples-grid');
+        for (let i = 4; i <= 70; i++) {
+            const div = document.createElement('div');
+            div.className = 'card';
+            div.innerHTML = `
+                <h3>Sample ${i < 10 ? '0' + i : i}</h3>
+                <button class="expand-btn">View Details</button>
+                <div class="hidden-content">
+                    <h2>Sample ${i}: Generated Title</h2>
+                    <img src="https://via.placeholder.com/800x400/e8f5e9/2e7d32?text=Sample+${i}" alt="Placeholder">
+                    <p><strong>Status:</strong> Placeholder content generated by script.</p>
+                    <p>Your colleagues can replace this placeholder card with real HTML.</p>
+                </div>
+            `;
+            grid.appendChild(div);
+        }
+    </script>
+</body>
+</html>
